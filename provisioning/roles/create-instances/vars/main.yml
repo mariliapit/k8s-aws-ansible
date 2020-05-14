@@ -1,0 +1,9 @@
+---
+# vars file for create-instances
+instance_type: t2.medium
+sec_group_name: mqul
+image: ami-077d5d3682940b34a
+keypair: dbois-key
+region: sa-east-1
+count: 3
+profile: dbois

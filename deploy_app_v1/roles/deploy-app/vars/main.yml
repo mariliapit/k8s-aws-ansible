@@ -1,0 +1,8 @@
+---
+# vars file for deploy-appA
+
+no_replicas: 10
+version: 1.14.2
+prometheus_scrape: "true"
+prometheus_port: 32111
+nginx_port: 80

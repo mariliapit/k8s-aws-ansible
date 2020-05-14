@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quantumbogoapp-v1
+spec:
+  replicas: {{ no_replicas }}
+  selector:
+    matchLabels:
+      app: quantumbogoapp
+  template:
+    metadata:
+      labels:
+        app: quantumbogoapp
+        version: {{ version }}
+      annotations:
+        prometheus.io/scrape: "{{ prometheus_scrape }}"
+        prometheus.io/port: "{{ prometheus_port }}"
+    spec:
+      containers:
+      - name: quantumbogoapp
+        image: nginx:{{ version }}
+        env:
+        - name: VERSION
+          value: {{ version }}
+        ports:
+        - containerPort: {{ nginx_port }}
+        - containerPort: {{ prometheus_port }}

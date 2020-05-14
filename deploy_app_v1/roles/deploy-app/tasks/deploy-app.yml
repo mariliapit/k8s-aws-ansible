@@ -1,0 +1,35 @@
+- name: create quantumbogoapp dirs structure
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /opt/quantumbogoapp
+    - /opt/quantumbogoapp/logs
+    - /opt/quantumbogoapp/conf
+  register: create_dirs
+
+- name: copy quantumbogoapp deployment files to host
+  template:
+    src: app-v1.yml.j2
+    dest: /opt/quantumbogoapp/app-v1.yml
+    owner: root
+    group: root
+    mode: 0644
+  register: copy_deployment_template
+      
+- name: copy quantumbogoapp service files to host
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: 'service-app.yml', dest: '/opt/quantumbogoapp/service-app.yml' }
+  register: copy_service_files
+
+- name: create quantumbogoapp deployment
+  shell: kubectl apply -f /opt/quantumbogoapp/app-v1.yml
+  register: deploy_app
+
+- name: create quantumbogoapp service
+  shell: kubectl apply -f /opt/quantumbogoapp/service-app.yml
+  register: deploy_service_app
+

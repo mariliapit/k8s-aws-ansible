@@ -1,0 +1,19 @@
+---
+#- name: download helm
+#  get_url:
+#    url: "{{ helm_url }}"
+#    dest: /tmp/get_helm.sh
+#    mode: 0775
+#  register: download_helm
+#
+#- name: install helm
+#  shell:
+#    /tmp/get_helm.sh
+#  when:
+#    - download_helm.failed|bool = false
+#  register: install_helm
+
+- name: install helm
+  shell: curl -fsSL "{{ helm_url }}" | bash
+  register: download_helm
+
